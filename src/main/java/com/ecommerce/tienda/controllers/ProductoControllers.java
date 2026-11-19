@@ -15,7 +15,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:5173")
 public class ProductoControllers {
 
-    ProductoService productoService;
+
+    private final ProductoService productoService;
 
     public ProductoControllers(ProductoService productoService) {
         this.productoService = productoService;
@@ -27,7 +28,7 @@ public class ProductoControllers {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> buscarProductoPorId(@PathVariable Long id) {
+    public ResponseEntity<Producto> buscarProductoPorId(@PathVariable int id) {
         Producto producto = productoService.buscarProductoPorId(id);
         if (producto == null) {
             return ResponseEntity.notFound().build();
@@ -36,7 +37,7 @@ public class ProductoControllers {
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Producto> actualizarProducto(@RequestBody Producto p,  @PathVariable Long id) {
+    public ResponseEntity<Producto> actualizarProducto(@RequestBody Producto p, @PathVariable int id) {
         return ResponseEntity.ok(productoService.editarProducto(p, id));
     }
 
@@ -46,15 +47,11 @@ public class ProductoControllers {
     }
 
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<String> eliminarProducto(@PathVariable Long id) {
+    public ResponseEntity<String> eliminarProducto(@PathVariable int id) {
        productoService.eliminarProducto(id);
        return ResponseEntity.ok("Producto eliminado correctamente...");
     }
 
-    @GetMapping("/categoria/{categoria}")
-    public ResponseEntity<List<Producto>> listarProductosPorCategoria(@PathVariable String categoria) {
-        List<Producto> p = productoService.buscarProductoPorCategoria(categoria);
-        return ResponseEntity.ok(p);
-    }
+
 
 }

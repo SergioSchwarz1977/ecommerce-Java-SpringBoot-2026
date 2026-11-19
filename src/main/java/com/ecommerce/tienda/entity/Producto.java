@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "producto")
+@Table(name = "productos")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,16 +21,13 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
 
     @NotBlank(message="La descripcion es obligatorio")
     private String descripcion;
-
-    @NotBlank(message = "La categoria es obligatorio")
-    private String categoria;
 
     @NotNull(message = "El precio es obligatorio")
     @Positive(message = "El precio debe ser positivo, mayor a 0")
@@ -39,12 +36,16 @@ public class Producto {
     @Min(value = 0, message = "El stock debe ser positivo")
     private int stock;
 
+    @ManyToOne
+    @JoinColumn(name="idcategoria")
+    private Categoria categoria;
 
-    public Producto(String nombre, String descripcion, String categoria, Double precio, int stock) {
+
+    public Producto(String nombre, String descripcion, Double precio, int stock, Categoria categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.categoria = categoria;
         this.precio = precio;
         this.stock = stock;
+        this.categoria = categoria;
     }
 }
